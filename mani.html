@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Movie Review Project</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f0f0f0;
+      color: #333;
+    }
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 1rem;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+      padding-left: 0;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+    }
+    .hero {
+      padding: 2rem;
+      text-align: center;
+      background: #007bff;
+      color: white;
+    }
+    section {
+      display: none;
+      padding: 2rem;
+    }
+    .active {
+      display: block;
+    }
+    footer {
+      text-align: center;
+      background: #333;
+      color: white;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+
+    .movie-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      padding: 1rem;
+    }
+    .movie-card {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .movie-card img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+    .movie-card h3 {
+      margin-top: 0.5rem;
+      font-size: 1.2rem;
+    }
+    .movie-card p {
+      margin: 0.5rem 0;
+    }
+    .rating {
+      color: #ffc107;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <h1>🎬 Movie Review Project</h1>
+      <ul>
+        <li><a href="#" onclick="showPage('home')">Home</a></li>
+        <li><a href="#" onclick="showPage('movies')">Movies</a></li>
+        <li><a href="#" onclick="showPage('about')">About</a></li>
+        <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="active hero">
+      <h2>Welcome to Movie Review Central 🎥</h2>
+      <p>Explore honest reviews and ratings for popular movies!</p>
+    </section>
+      
+    <section id="movies">
+      <h2>Movies</h2>
+      <select id="sort" onchange="sortMovies()">
+        <option value="title">Sort by Title</option>
+        <option value="rating">Sort by Rating</option>
+      </select>
+      <div class="movie-grid" id="movie-list"></div>
+      <button class="submit-btn" onclick="submitMovies()">Submit</button>
+    </section>
+
+    <section id="about">
+      <h2>About Me</h2>
+      <p>Movies have always played a significant role in shaping my interests, creativity, and perspective on the world.
+         Whether it's thought-provoking dramas, thrilling science fiction, or emotionally rich stories, 
+         I enjoy exploring different genres that reflect human emotions, culture, and imagination. I often spend time analyzing characters, plot development, and cinematography, which has deepened my appreciation for the art of filmmaking. 
+         Over the years, watching movies has not only been a form of entertainment for me but also a source of inspiration and learning. I especially enjoy films that challenge conventional thinking and leave a lasting impact, sparking meaningful conversations. 
+         Through movies, I connect with diverse ideas, emotions, and storytelling styles, making them a vital part of my personal and creative journey.</p>
+    </section>
+
+    <section id="contact">
+      <h2>Contact </h2>
+      <p>Name: Tom</p>
+      <p>Email: Tom123@gmail.com</p>
+    </section>
+  </main>
+   
+  <footer>
+    <p>&copy; 2025 Movie Review Project | Made with 🍿</p>
+  </footer>
+
+  <script>
+    function showPage(pageId) {
+      document.querySelectorAll("main section").forEach(sec => sec.classList.remove("active"));
+      document.getElementById(pageId).classList.add("active");
+    }
+
+    const movies = [
+      {
+        title: "Mission: Impossible - The Final Reckoning",
+        rating: 4.8,
+        review: "A mind-bending thriller that challenges reality.",
+        img: "https://image.telanganatoday.com/wp-content/uploads/2025/04/Mission-Immposible_V_jpg--816x480-4g.webp?sw=1280&dsz=816x480&iw=615&p=false&r=1.5"
+      },
+      {
+        title: "karuppu",
+        rating: 4.7,
+        review: "A breathtaking journey through surya and RJB it was a mind blowing movie.",
+        img: "https://pbs.twimg.com/media/GwhAgOFbEAIl82-?format=jpg&name=large"
+      },
+      {
+        title: "Falimy",
+        rating: 4.9,
+        review: "Directed by Nithish Sahadev starring Basil Joseph, Jagadish, Manju Pillai, Sandeep Pradeep & Meenaraj Palluruthy in lead roles.",
+        img: "https://m.media-amazon.com/images/M/MV5BNmJhMzNjMjctYWQ3YS00OWRkLWE4MTgtOGEwODdiNWNmMTk5XkEyXkFqcGc@._V1_.jpg"
+      },
+      {
+        title: "Animal",
+        rating: 4.9,
+        review: "A Riveting and Thought‑Provoking Masterpiece** Rating: ⭐⭐⭐⭐⭐ “Animal” (2023) is a remarkable cinematic experience that redefines the animal genre with its powerful narrative and striking visuals.",
+        img: "https://m.media-amazon.com/images/I/91zTlD7AY1L.jpg"
+      },
+    ];
+
+    function renderMovies(items) {
+      const list = document.getElementById('movie-list');
+      list.innerHTML = '';
+      items.forEach(m => {
+        list.innerHTML += `
+          <div class="movie-card">
+            <img src="${m.img}" alt="${m.title}" />
+            <h3>${m.title}</h3>
+            <p><strong>Rating:</strong> ⭐ ${m.rating}/5</p>
+            <p><strong>Review:</strong> ${m.review}</p>
+          </div>`;
+      });
+    }
+
+    function sortMovies() {
+      const type = document.getElementById('sort').value;
+      let sorted = [...movies];
+      if (type === 'rating') {
+        sorted.sort((a, b) => b.rating - a.rating);
+      } else if (type === 'title') {
+        sorted.sort((a, b) => a.title.localeCompare(b.title));
+      }
+      renderMovies(sorted);
+    }
+
+    function submitMovies() {
+      alert("Thanks for exploring our movie reviews!");
+    }
+
+    renderMovies(movies);
+  </script>
+
+</body>
+</html>
